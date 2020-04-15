@@ -7,6 +7,8 @@ services:
       PORT: "3000"
     ports:
       - 3000:3000
+    volumes: 
+      - ./backend:/app
   frontend:
     build: frontend
     environment:
@@ -14,6 +16,8 @@ services:
       PORT: "8080"
     ports:
       - 8080:8080
+    volumes: 
+      - ./frontend:/app
   mongodb:
     image: mongo:4.2
     ports:

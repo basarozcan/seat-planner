@@ -9,7 +9,7 @@
             </a>
             <div class="w-full text-xs pl-2 text-gray-500">
         Made with
-        <font-awesome-icon icon="heart" size="xs" style="color:Tomato; margin-right:2px"/>__by
+        <font-awesome-icon icon="heart" size="xs" style="color:Tomato; margin-right:2px"/> by
         <a class="underline" href="https://github.com/basarozcan">@basarozcan</a>
       </div>
           </div>
