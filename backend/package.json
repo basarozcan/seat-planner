@@ -4,26 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start_windows": "set NODE_ENV=development&&nodemon index.js",
+    "start_windows": "set NODE_ENV=development && nodemon index.js",
     "test": "ava --verbose --watch",
     "test-coverage": "nyc ava --verbose"
   },
   "author": "Başar Özcan <basarozcan@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.7.10",
-    "mongoose-autopopulate": "^0.9.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.9.10",
+    "mongoose-autopopulate": "^0.12.2",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12",
     "pug": "^2.0.4"
   },
   "devDependencies": {
-    "ava": "^2.4.0",
+    "ava": "^3.7.1",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "nodemon": "^1.19.4",
-    "nyc": "^14.1.1",
+    "nodemon": "^2.0.3",
+    "nyc": "^15.0.1",
     "supertest": "^4.0.2"
   },
   "ava": {

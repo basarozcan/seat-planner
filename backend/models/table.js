@@ -10,7 +10,10 @@ const TableSchema = new mongoose.Schema({
             maxDepth: 1
         }
     }],
-    dashboard: []
+    board: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Board'
+    }
 })
 
 TableSchema.plugin(require('mongoose-autopopulate'))

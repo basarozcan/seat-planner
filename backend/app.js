@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const personRouter = require('./routes/person')
 const tableRouter = require('./routes/table')
+const boardRouter = require('./routes/board')
 
 require('./mongo-connection')
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json())
 
 app.use('/guest', personRouter)
 app.use('/table', tableRouter)
+app.use('/board', boardRouter)
 
 app.get('/', (req, res) => {
   res.render('index')
