@@ -7,11 +7,21 @@ module.exports = class Service {
     return this.model.create(item)
   }
 
-  async  del(itemId) {
+  async del(itemId) {
     return this.model.deleteOne({ _id: itemId })
   }
 
-  async find(itemId) {
-    return this.model.findById(itemId)
+  async find(itemId, func) {
+    return this.model.findById(itemId, func)
   }
+
+  async findOne(json){
+    return this.model.findOne(json)
+  }
+
+  async findFilter(json){
+    return this.model.find(json)
+  }
+
+
 }
