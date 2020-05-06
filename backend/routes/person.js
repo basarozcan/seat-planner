@@ -4,10 +4,10 @@ const router = express.Router()
 const PersonService = require('../services/person-service')
 const TableService = require('../services/table-service')
 
-// router.get('/all', async (req, res) => {
-//   const people = await PersonService.findAll()
-//   res.render('list', { items: people })
-// })
+/* router.get('/all', async (req, res) => {
+  const people = await PersonService.findAll()
+  res.render('list', { items: people })
+}) */
 
 router.get('/all/json', async (req, res) => {
   const people = await PersonService.findAll()
