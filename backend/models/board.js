@@ -6,9 +6,22 @@ const BoardSchema = new mongoose.Schema({
         required: true,
         minlength: 2
     },
-    owner_id: String
+    tables: [{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Table',
+        autopopulate: {
+            maxDepth: 1
+        }
+    }],
+    owner_id: [{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+        autopopulate: {
+            maxDepth: 1
+        }
+    }],
 })
-// BoardSchema.plugin(require('mongoose-autopopulate'))
+BoardSchema.plugin(require('mongoose-autopopulate'))
 
 const BoardModel = mongoose.model('Board', BoardSchema)
 

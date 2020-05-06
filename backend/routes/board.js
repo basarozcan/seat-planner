@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const BoardService = require('../services/board-service')
+const TableService = require('../services/table-service')
 
 // TODO - user_id yollayıp boardlarını çekelim
 router.get('/all/json', async (req, res) => {
@@ -19,12 +20,17 @@ router.get('/:id/json', async (req, res) => {
   console.log(req.params.id);
   await BoardService.find(req.params.id, (err, board) => {
     if(err){
-      console.log('board not found');
       res.status(404).send('board not found')
     }else{
       res.send(board)
     }
   })
+})
+
+// get all tables for selected board
+router.get('/:id/get-tables/json', async (req, res) => {
+  const tables = await TableService.findFilter({board: req.params.id})
+  res.send(tables)
 })
 
 router.post('/', async (req, res) => {
