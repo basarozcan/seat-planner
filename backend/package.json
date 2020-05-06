@@ -6,7 +6,8 @@
   "scripts": {
     "start_windows": "set NODE_ENV=development && nodemon index.js",
     "test": "ava --verbose --watch",
-    "test-coverage": "nyc ava --verbose"
+    "test-coverage": "nyc ava --verbose",
+    "start.dev": "set NODE_ENV=development && nodemon --legacy-watch ./index.js"
   },
   "author": "Başar Özcan <basarozcan@gmail.com>",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "mongoose-autopopulate": "^0.12.2",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.4"
   },
   "devDependencies": {
