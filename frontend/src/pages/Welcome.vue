@@ -13,7 +13,7 @@
             </div>
             <div class="bg-grey-lightest px-10 py-10">
               <div class="mb-3">
-                <a href="http://localhost:3000/auth/github">
+                <a :href="apiUrl + '/auth/github'">
                   <div class="bg-gray-700 py-2 px-4 text-white text-center">Login With Github</div>
                 </a>
               </div>
@@ -91,7 +91,6 @@ export default {
     ...mapGetters(['isLoggedIn', 'getBoards','isBoardsLoaded']),
     ...mapState(['user', 'showBoardModal']),
   },
-
 
 };
 </script>
