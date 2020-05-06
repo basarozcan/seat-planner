@@ -1,16 +1,16 @@
 version: "3"
 services:
   backend:
-    build: backend
+    build: ./backend
     environment:
-      MONGODB_CONNECTION_STRING: "mongodb://mongodb/seatplanner"
+      MONGODB_CONNECTION_STRING: "mongodb://mongo/seatplanner"
       PORT: "3000"
     ports:
       - 3000:3000
     volumes: 
       - ./backend:/app
   frontend:
-    build: frontend
+    build: ./frontend
     environment:
       VUE_APP_API_URL: "http://localhost:3000"
       PORT: "8080"
@@ -18,7 +18,17 @@ services:
       - 8080:8080
     volumes: 
       - ./frontend:/app
-  mongodb:
+  mongo:
     image: mongo:4.2
     ports:
       - 27017:27017
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root1234
+    links:
+      - mongo

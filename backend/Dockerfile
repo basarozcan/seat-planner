@@ -1,12 +1,14 @@
 FROM node:12-alpine
 
+RUN mkdir -p /app
 WORKDIR /app
+RUN npm install -g nodemon
 
 COPY package.json package-lock.json ./
-RUN npm install --production
+#RUN npm install --production
+RUN npm install
 
-COPY ./ /app/
+COPY . .
 
 EXPOSE 3000
-
-CMD [ "node", "/app/index.js" ]
+CMD [ "npm", "run", "start.dev" ]
