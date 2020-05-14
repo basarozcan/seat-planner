@@ -30,17 +30,17 @@ router.get('/:id/json', async (req, res) => {
 router.post('/', async (req, res) => {
   const user = await PersonService.add(req.body)
   const getTable = await TableService.find(req.body.table)
-  await TableService.sitToTable(user, getTable)
+  await TableService.addToTable(user, getTable)
   res.send(user)
 })
 
-router.post('/:id/add-to-table', async (req, res) => {
-  // @body table
-  const user = await PersonService.find(req.params.id)
-  const newTable = await TableService.find(req.body.table)
-  await TableService.sitToTable(user, newTable)
-  res.send(user)
-})
+// router.post('/:id/add-to-table', async (req, res) => {
+//   // @body table
+//   const user = await PersonService.find(req.params.id)
+//   const newTable = await TableService.find(req.body.table)
+//   await TableService.sitToTable(user, newTable)
+//   res.send(user)
+// })
 
 router.post('/:id/change-table', async (req, res) => {
   // @body table
