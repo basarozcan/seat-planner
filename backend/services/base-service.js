@@ -23,5 +23,9 @@ module.exports = class Service {
     return this.model.find(json)
   }
 
+  async updateOne(searchArray, replaceJson){
+    return this.model.updateOne(searchArray, replaceJson).findOne(searchArray)
+  }
+
 
 }

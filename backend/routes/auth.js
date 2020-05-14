@@ -19,7 +19,15 @@ router.get("/check", (req, res) => {
 });
 
 // Navigating to auth/github provides us with option to sign in via github
-router.get("/github", passport.authenticate("github"));
+// localhost:3000/auth/google
+router.get("/github", passport.authenticate("github", {
+    scope: ['read:user','user:email']
+}));
+router.get("/google", passport.authenticate("google", {
+    scope:
+        ['email', 'profile']
+}));
+router.get("/facebook", passport.authenticate('facebook', { scope: ['email'] }));
 
 // The redirect url
 router.get(
@@ -28,6 +36,28 @@ router.get(
     (req, res) => {
         console.log('githubdan redirect oldum')
         // For redirecting into the client app
+        res.redirect("http://localhost:8080/");
+    }
+);
+
+//the redirect url of google
+router.get(
+    "/google/redirect",
+    passport.authenticate("google", { failureRedirect: "/" }),
+    (req, res) => {
+        console.log('googledan redirect oldum')
+        // For redirecting into the client app
+        res.redirect("http://localhost:8080/");
+    }
+);
+
+//the redirect url of google
+router.get(
+    "/facebook/redirect",
+    passport.authenticate("facebook", { failureRedirect: "/" }),
+    (req, res) => {
+        console.log('facebooktan redirect oldum')
+        // For redirecting into the client appW
         res.redirect("http://localhost:8080/");
     }
 );
