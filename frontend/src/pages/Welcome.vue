@@ -11,18 +11,29 @@
               >Welcome!</div>
               <div class="login-subtitle text-gray-700 text-md">Please log in</div>
             </div>
-            <div class="bg-grey-lightest px-10 py-10">
+            <div class="bg-grey-lightest px-10 py-5">
               <div class="mb-3">
-                <a :href="apiUrl + '/auth/github'">
-                  <div class="bg-gray-700 py-2 px-4 text-white text-center">Login With Github</div>
+                <a :href="apiUrl + '/auth/facebook'">
+                  <div class="bg-blue-700 py-2 px-4 text-white text-center">Login With Facebook</div>
+                </a>
+              </div>
+            </div>
+            <div class="bg-grey-lightest px-10 py-5">
+              <div class="mb-3">
+                <a :href="apiUrl + '/auth/google'">
+                  <div class="bg-gray-700 py-2 px-4 text-white text-center">Login With Google</div>
                 </a>
               </div>
             </div>
           </div>
           <div class="select-dashboard" v-show="isLoggedIn">
-            <div class="border-b py-4 text-center">
+            <div class="flex flex-col border-b py-4 text-center">
+              <div class="self-center">
+                <img :src="user.image" :alt="user.name" class="rounded-lg shadow-md">
+              </div>
               <div class="login-header font-bold text-black text-xl tracking-widest">{{user.name}}</div>
-              <div class="login-subtitle text-gray-700 text-md">Please select your board or <div class="logout cursor-pointer" @click="logoutEvent">Logout</div></div>
+              <div class="text-xs italic text-gray-400">{{user._id}}</div>
+              <div class="login-subtitle text-md text-gray-700">Please select your board</div>
             </div>
             <div class="bg-grey-lightest px-10 py-10 flex flex-wrap -m-2">
               <div class="w-full" v-show="isBoardsLoaded">
@@ -50,6 +61,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="flex logout justify-center mt-4" v-show="isLoggedIn">
+          <span class="cursor-pointer italic text-blue-300" @click="logoutEvent">log me out</span>
         </div>
       </div>
     </div>
@@ -94,6 +108,3 @@ export default {
 
 };
 </script>
-
-<style>
-</style>
