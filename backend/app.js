@@ -48,8 +48,8 @@ app.use('/table', tableRouter)
 app.use('/board', boardRouter)
 app.use('/auth', authRouter);
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
+// app.get('/', (req, res) => {
+//   res.render('index')
+// })
 
 module.exports = app
