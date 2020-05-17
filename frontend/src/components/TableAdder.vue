@@ -14,7 +14,7 @@
           type="text"
           placeholder="enter table name"
           v-model="tableName"
-          @keyup.enter="addTable"
+          @keyup.enter="addTableEvent"
           ref="tablename"
         >
       </div>

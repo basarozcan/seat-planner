@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white shadow rounded px-3 pt-2 pb-2 border border-white" :data-guest-id="guest._id">
+  <div class="bg-white shadow rounded px-3 pt-2 pb-2 border border-white mb-2" :data-guest-id="guest._id">
     <div class="flex flex-row">
       <div class="flex-grow pr-1">
         <div class="flex justify-between">
