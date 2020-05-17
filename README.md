@@ -7,7 +7,7 @@ Run `docker-compose up` for creating docker containers and start app.
 ## Tech Stack
 
 ### Frontend
- - Vue.js & Vuex & Vue-cli
+ - Vue.js & Vuex & Vue-router & Vue-cli
  - Tailwindcss
 
 ### Backend

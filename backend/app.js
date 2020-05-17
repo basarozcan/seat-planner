@@ -7,7 +7,7 @@ const passport = require('passport')
 const passportSetup = require('./passport-config')
 const cookieSession = require('cookie-session')
 
-const personRouter = require('./routes/person')
+const guestRouter = require('./routes/guest')
 const tableRouter = require('./routes/table')
 const boardRouter = require('./routes/board')
 const authRouter = require('./routes/auth')
@@ -21,7 +21,7 @@ app.set('view engine', 'pug')
 app.use(
   cookieSession({
     name: 'seatplannersession',
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 * 24 hours
     keys: ["qwefgfds"]
   })
 );
@@ -43,7 +43,7 @@ app.use(cors(corsOption));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/guest', personRouter)
+app.use('/guest', guestRouter)
 app.use('/table', tableRouter)
 app.use('/board', boardRouter)
 app.use('/auth', authRouter);
