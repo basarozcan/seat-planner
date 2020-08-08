@@ -13,6 +13,6 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.4.6 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "Seat Planner Backend" #Must be unique in Heroku
-          heroku_email: "basar@basarozcan.com"
+          heroku_app_name: "dmv-mevn-seat-planner" #Must be unique in Heroku
+          heroku_email: "basarozcan@gmail.com"
           appdir: "backend" # <- This will point to the api folder in your project
