@@ -4,24 +4,18 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.4.6 # This is the action
         with:
-          node-version: ${{ matrix.node-version }}
-
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}" #Must be unique in Heroku
+          heroku_email: "basarozcan@gmail.com"
+          appdir: "backend" # <- This will point to the api folder in your project
       - name: npm install
         run: |
           npm install
@@ -29,9 +23,3 @@ jobs:
       - name: npm build
         run: |
           npm build
-
-      - name: Add remote origin
-        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-
-      - name: Deploy backend to heroku
-        run: git push --force heroku `git subtree split --prefix backend HEAD`:master
