@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=development && node index.js",
+    "heroku-prebuild": "npm install pm2 -g",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "start_windows": "set NODE_ENV=development && nodemon index.js",
     "test": "ava --verbose --watch",
     "test-coverage": "nyc ava --verbose",
