@@ -2,23 +2,21 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
-  build:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+
     steps:
-      - name: set actions
-        uses: actions/checkout@v2
-      - run: npm install
-      - run: |
-          git config --global user.email "basarozcan@gmail.com"
-          git config --global user.name "basarozcan"
-      - name: heroku deploy action
-        uses: akhileshns/heroku-deploy@v3.4.6 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "dmv-mevn-seat-planner" #Must be unique in Heroku
-          heroku_email: "basarozcan@gmail.com"
-          appdir: "backend" # <- This will point to the api folder in your project
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Add remote origin
+        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+
+      - name: Deploy backend to heroku
+        run: git push --force heroku 'git subtree split --prefix backend HEAD':master
