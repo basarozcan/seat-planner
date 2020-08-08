@@ -1,41 +1,43 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const passport = require('passport')
-const passportSetup = require('./passport-config')
-const cookieSession = require('cookie-session')
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const passport = require("passport");
+const passportSetup = require("./passport-config");
+const cookieSession = require("cookie-session");
 
-const guestRouter = require('./routes/guest')
-const tableRouter = require('./routes/table')
-const boardRouter = require('./routes/board')
-const authRouter = require('./routes/auth')
+const guestRouter = require("./routes/guest");
+const tableRouter = require("./routes/table");
+const boardRouter = require("./routes/board");
+const authRouter = require("./routes/auth");
 
-const { SESSION_SECRET } = process.env
+const { SESSION_SECRET } = process.env;
 
-require('./mongo-connection')
+require("./mongo-connection");
 
-const app = express()
-app.set('view engine', 'pug')
+const app = express();
+app.set("view engine", "pug");
 app.use(
   cookieSession({
-    name: 'seatplannersession',
+    name: "seatplannersession",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 * 24 hours
-    keys: ["qwefgfds"]
+    keys: ["qwefgfds"],
   })
 );
-app.use(bodyParser.json())
-app.use(require('express-session')({
-  secret: SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(bodyParser.json());
+app.use(
+  require("express-session")({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 var corsOption = {
   origin: true,
   methods: `GET, HEAD, PUT, PATCH, POST, DELETE`,
-  credentials: true
+  credentials: true,
 };
 app.use(cors(corsOption));
 
@@ -43,13 +45,13 @@ app.use(cors(corsOption));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/guest', guestRouter)
-app.use('/table', tableRouter)
-app.use('/board', boardRouter)
-app.use('/auth', authRouter);
+app.use("/guest", guestRouter);
+app.use("/table", tableRouter);
+app.use("/board", boardRouter);
+app.use("/auth", authRouter);
 
-// app.get('/', (req, res) => {
-//   res.render('index')
-// })
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
-module.exports = app
+module.exports = app;
