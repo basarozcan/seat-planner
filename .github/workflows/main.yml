@@ -16,3 +16,4 @@ jobs:
           heroku_app_name: "dmv-mevn-seat-planner" #Must be unique in Heroku
           heroku_email: "basarozcan@gmail.com"
           appdir: "backend" # <- This will point to the api folder in your project
+          procfile: "web: npm install && npm start"
