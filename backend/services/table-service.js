@@ -17,6 +17,11 @@ class TableService extends BaseService {
         await person.save()
         await table.save()
     }
+
+    async addToTable(person, table) {
+        table.guests.push(person)
+        await table.save()
+    }
 }
 
 module.exports = new TableService()

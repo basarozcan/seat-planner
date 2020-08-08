@@ -16,6 +16,7 @@ const PersonSchema = new mongoose.Schema({
     table: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Table',
+        required: false,
         autopopulate: {
             maxDepth: 1
         }

@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-gray-200 rounded-lg px-3 py-3 column-width rounded mr-4">
-    <div class="flex justify-between">
-      <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.name}}</p>
-      <p class="text-gray-700 font-semibold font-sans tracking-wide text-xs">{{totalGuestOnTable}} guests</p>
+  <div class="bg-gray-200 rounded-lg px-3 py-1 column-width rounded mr-4">
+    <div class="flex justify-between mb-1 text-gray-700 font-semibold font-sans tracking-wide">
+      <p class="p-1 rounded-lg text-sm hover:bg-gray-100 hover:shadow-lg hover:underline cursor-pointer">{{column.name}}</p>
+      <p class="text-xs self-center">{{totalGuestOnTable}} guests</p>
     </div>
     <div class="h-screen">
       <draggable
@@ -11,7 +11,7 @@
         ghost-class="ghost-card"
         group="guests"
         handle=".handle"
-        class="items-stretch h-screen w-full"
+        class="items-stretch h-full w-full pb-24"
         :data-table-id="column._id"
         @end="onEnd"
       >
@@ -19,7 +19,7 @@
             v-for="(guest) in column.guests"
             :key="guest._id"
             :guest="guest"
-            class="mt-3 item"
+            class="item"
           ></guest-card>
       </draggable>
     </div>

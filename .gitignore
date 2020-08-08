@@ -2,10 +2,10 @@
 backend/node_modules
 backend/.vscode
 backend/.env
+backend/.nyc_output/
 
 frontend/node_modules
 frontend/dist
 
 NOTLAR.md
 .vscode
-

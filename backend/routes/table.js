@@ -8,6 +8,8 @@ router.get('/all', async (req, res) => {
   res.render('list', { items: tables })
 })
 
+// get all tables
+// not suggested
 router.get('/all/json', async (req, res) => {
   const tables = await TableService.findAll()
   res.send(tables)
