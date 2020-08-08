@@ -1,38 +1,38 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const PersonService = require('../services/person-service')
-const TableService = require('../services/table-service')
+const PersonService = require("../services/person-service");
+const TableService = require("../services/table-service");
 
 /* router.get('/all', async (req, res) => {
   const people = await PersonService.findAll()
   res.render('list', { items: people })
 }) */
 
-router.get('/all/json', async (req, res) => {
-  const people = await PersonService.findAll()
+router.get("/all/json", async (req, res) => {
+  const people = await PersonService.findAll();
   //res.render('list', { items: people })
-  res.send(people)
-})
+  res.send(people);
+});
 
-router.get('/:id', async (req, res) => {
-  const user = await PersonService.find(req.params.id)
-  if (!user) res.status(404)
-  res.render('data', { data: user })
-})
+router.get("/:id", async (req, res) => {
+  const user = await PersonService.find(req.params.id);
+  if (!user) res.status(404);
+  res.render("data", { data: user });
+});
 
-router.get('/:id/json', async (req, res) => {
-  const user = await PersonService.find(req.params.id)
-  if (!user) res.status(404)
-  res.send(user)
-})
+router.get("/:id/json", async (req, res) => {
+  const user = await PersonService.find(req.params.id);
+  if (!user) res.status(404);
+  res.send(user);
+});
 
-router.post('/', async (req, res) => {
-  const user = await PersonService.add(req.body)
-  const getTable = await TableService.find(req.body.table)
-  await TableService.addToTable(user, getTable)
-  res.send(user)
-})
+router.post("/", async (req, res) => {
+  const user = await PersonService.add(req.body);
+  const getTable = await TableService.find(req.body.table);
+  await TableService.addToTable(user, getTable);
+  res.send(user);
+});
 
 // router.post('/:id/add-to-table', async (req, res) => {
 //   // @body table
@@ -42,25 +42,37 @@ router.post('/', async (req, res) => {
 //   res.send(user)
 // })
 
-router.post('/:id/change-table', async (req, res) => {
+router.post("/:id/change-table", async (req, res) => {
   // @body table
-  const user = await PersonService.find(req.params.id)
+  const user = await PersonService.find(req.params.id);
 
   //remove guest from old table
-  const oldTable = await TableService.find(user.table)
-  await TableService.standUpFromTable(user,oldTable)
+  const oldTable = await TableService.find(user.table);
+  await TableService.standUpFromTable(user, oldTable);
 
   //add guest to new table
-  const newTable = await TableService.find(req.body.table)
-  await TableService.sitToTable(user, newTable)
+  const newTable = await TableService.find(req.body.table);
+  await TableService.sitToTable(user, newTable);
 
-  res.send(user)
-})
+  res.send(user);
+});
 
-router.delete('/:id', async (req, res) => {
-  const user = await PersonService.del(req.params.id)
-  res.send(user)
+router.patch("/edit", async (req, res) => {
+  const editedGuest = await PersonService.updateOne(
+    { _id: req.body.id },
+    {
+      name: req.body.name,
+      qty: req.body.qty,
+      type: req.body.type,
+    }
+  );
+  res.send(editedGuest);
+});
+
+router.delete("/:id", async (req, res) => {
+  const user = await PersonService.del(req.params.id);
+  res.send(user);
   // console.log(user)
-})
+});
 
-module.exports = router
+module.exports = router;
