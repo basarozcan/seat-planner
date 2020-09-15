@@ -63,7 +63,7 @@ jobs:
           aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
           application_name: DmvSeatPlanner
           environment_name: Dmvseatplanner-env
-          region: us-west-2
+          region: us-east-1
           version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
           deployment_package: backend/deploy.zip
 
