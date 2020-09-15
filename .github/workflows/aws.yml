@@ -36,7 +36,7 @@ jobs:
         working-directory: backend
 
       - name: npm build
-        run: npm run build
+        run: npm build
         working-directory: backend
 
       - name: Generate deployment package
