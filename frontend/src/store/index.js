@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     columns: [],
     showGuestModal: false,
+    showTableEditModal: false,
     showGuestEditModal: false,
     showTableModal: false,
     showBoardModal: false,
@@ -15,13 +16,17 @@ export default new Vuex.Store({
     user: [],
     boards: [],
     selectedBoard: [],
+    selectedTable: [],
     selectedGuest: [],
     isBoardsLoaded: false,
   },
   getters: {
     getTableNames: (state) => {
       return state.columns.map((item) => {
-        return { name: item.name, id: item._id };
+        return {
+          name: item.name,
+          id: item._id
+        };
       });
     },
 
@@ -77,6 +82,10 @@ export default new Vuex.Store({
       state.showTableModal = data;
     },
 
+    SET_TABLE_EDIT_MODAL_VISIBILITY(state, data) {
+      state.showTableEditModal = data;
+    },
+
     SET_BOARD_MODAL_VISIBILITY(state, data) {
       state.showBoardModal = data;
     },
@@ -97,12 +106,19 @@ export default new Vuex.Store({
       state.selectedBoard = data;
     },
 
+    SET_SELECTED_TABLE(state, data) {
+      state.selectedTable = data;
+    },
+
     SET_SELECTED_GUEST(state, data) {
       state.selectedGuest = data;
     },
   },
   actions: {
-    async addBoard({ commit, dispatch }, payload) {
+    async addBoard({
+      commit,
+      dispatch
+    }, payload) {
       await axios.post(`${process.env.VUE_APP_API_URL}/board`, {
         name: payload.name,
         owner_id: payload.owner_id,
@@ -110,7 +126,10 @@ export default new Vuex.Store({
       dispatch("fetchBoards");
     },
 
-    async addTable({ commit, dispatch }, payload) {
+    async addTable({
+      commit,
+      dispatch
+    }, payload) {
       await axios.post(`${process.env.VUE_APP_API_URL}/table`, {
         name: payload.name,
         board: payload.board,
@@ -118,22 +137,40 @@ export default new Vuex.Store({
       dispatch("fetchTables");
     },
 
-    async addGuest({ commit, dispatch }, payload) {
-      await axios.post(`${process.env.VUE_APP_API_URL}/guest`, payload);
-      dispatch("fetchTables");
-    },
-
-    async editGuest({ commit, dispatch }, payload) {
-      console.log("edit-guest");
+    async editTable({
+      commit,
+      dispatch
+    }, payload) {
       await axios
-        .patch(`${process.env.VUE_APP_API_URL}/guest/edit`, payload)
+        .patch(`${process.env.VUE_APP_API_URL}/table/edit`, payload)
         .then((result) => {
-          console.log(result);
           dispatch("fetchTables");
         });
     },
 
-    async fetchTables({ commit, state }) {
+    async addGuest({
+      commit,
+      dispatch
+    }, payload) {
+      await axios.post(`${process.env.VUE_APP_API_URL}/guest`, payload);
+      dispatch("fetchTables");
+    },
+
+    async editGuest({
+      commit,
+      dispatch
+    }, payload) {
+      await axios
+        .patch(`${process.env.VUE_APP_API_URL}/guest/edit`, payload)
+        .then((result) => {
+          dispatch("fetchTables");
+        });
+    },
+
+    async fetchTables({
+      commit,
+      state
+    }) {
       const result = await axios.get(
         `${process.env.VUE_APP_API_URL}/board/${
           state.selectedBoard._id
@@ -143,7 +180,9 @@ export default new Vuex.Store({
       commit("SET_TABLES", result.data);
     },
 
-    async removeGuest({ commit }, payload) {
+    async removeGuest({
+      commit
+    }, payload) {
       await axios.delete(`${process.env.VUE_APP_API_URL}/guest/${payload.id}`);
       const fetchAll = await axios.get(
         `${process.env.VUE_APP_API_URL}/table/all/json`
@@ -151,17 +190,25 @@ export default new Vuex.Store({
       commit("SET_TABLES", fetchAll.data);
     },
 
-    async guestChangeTable({ commit, state }, payload) {
+    async guestChangeTable({
+      commit,
+      state
+    }, payload) {
       await axios.post(
-        `${process.env.VUE_APP_API_URL}/guest/${payload.guestId}/change-table`,
-        { table: payload.toTableId }
+        `${process.env.VUE_APP_API_URL}/guest/${payload.guestId}/change-table`, {
+          table: payload.toTableId
+        }
       );
     },
 
-    async fetchUser({ commit }) {
+    async fetchUser({
+      commit
+    }) {
       await axios
         .get(`${process.env.VUE_APP_API_URL}/auth/check`, {
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           withCredentials: true,
         })
         .then((result) => {
@@ -177,11 +224,15 @@ export default new Vuex.Store({
         });
     },
 
-    async fetchBoards({ commit, state }) {
+    async fetchBoards({
+      commit,
+      state
+    }) {
       const result = await axios.get(
-        `${process.env.VUE_APP_API_URL}/board/all/${state.user._id}/json`,
-        {
-          headers: { "Content-Type": "application/json" },
+        `${process.env.VUE_APP_API_URL}/board/all/${state.user._id}/json`, {
+          headers: {
+            "Content-Type": "application/json"
+          },
           withCredentials: true,
         }
       );
@@ -190,10 +241,15 @@ export default new Vuex.Store({
       commit("SET_BOARDS_LOADED", true);
     },
 
-    async fetchBoardData({ commit, dispatch }, payload) {
+    async fetchBoardData({
+      commit,
+      dispatch
+    }, payload) {
       await axios
         .get(`${process.env.VUE_APP_API_URL}/board/${payload.id}/json`, {
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           withCredentials: true,
         })
         .then((res) => {
@@ -209,11 +265,14 @@ export default new Vuex.Store({
       // const boardData = result.data
     },
 
-    async logoutUser({ commit }) {
+    async logoutUser({
+      commit
+    }) {
       const result = await axios.get(
-        `${process.env.VUE_APP_API_URL}/auth/logout`,
-        {
-          headers: { "Content-Type": "application/json" },
+        `${process.env.VUE_APP_API_URL}/auth/logout`, {
+          headers: {
+            "Content-Type": "application/json"
+          },
           withCredentials: true,
         }
       );
@@ -224,23 +283,45 @@ export default new Vuex.Store({
       }
     },
 
-    selectGuest({ commit }, payload) {
+    selectTable({
+      commit
+    }, payload) {
+      commit("SET_SELECTED_TABLE", payload);
+    },
+
+    tableEditModalVisible({
+      commit
+    }, payload = true) {
+      commit("SET_TABLE_EDIT_MODAL_VISIBILITY", payload);
+    },
+
+    selectGuest({
+      commit
+    }, payload) {
       commit("SET_SELECTED_GUEST", payload);
     },
 
-    guestModalVisible({ commit }, payload = true) {
+    guestModalVisible({
+      commit
+    }, payload = true) {
       commit("SET_GUEST_MODAL_VISIBILITY", payload);
     },
 
-    guestEditModalVisible({ commit }, payload = true) {
+    guestEditModalVisible({
+      commit
+    }, payload = true) {
       commit("SET_GUEST_EDIT_MODAL_VISIBILITY", payload);
     },
 
-    tableModalVisible({ commit }, payload = true) {
+    tableModalVisible({
+      commit
+    }, payload = true) {
       commit("SET_TABLE_MODAL_VISIBILITY", payload);
     },
 
-    boardModalVisible({ commit }, payload = true) {
+    boardModalVisible({
+      commit
+    }, payload = true) {
       commit("SET_BOARD_MODAL_VISIBILITY", payload);
     },
   },

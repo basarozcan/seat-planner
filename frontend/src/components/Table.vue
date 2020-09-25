@@ -2,10 +2,13 @@
   <div class="bg-gray-200 rounded-lg px-3 py-1 column-width rounded mr-4">
     <div class="flex justify-between mb-1 text-gray-700 font-semibold font-sans tracking-wide">
       <p class="table-title hover:bg-gray-100 hover:shadow-lg">
-        {{column.name}}
-        <span class="table-title-edit-icon">
-          <font-awesome-icon icon="edit" size="xs" style="color:cornflowerblue" />
+        <span @click="editTableEvent(column)">
+          {{column.name}}
+          <span class="table-title-edit-icon">
+            <font-awesome-icon icon="edit" size="xs" style="color:cornflowerblue" />
+          </span>
         </span>
+
       </p>
       <p class="text-xs self-center">{{totalGuestOnTable}} guests</p>
     </div>
@@ -38,7 +41,7 @@
       }
     },
     methods: {
-      ...mapActions(['guestChangeTable']),
+      ...mapActions(['guestChangeTable', 'selectTable', 'tableEditModalVisible']),
       onEnd(evt) {
         const guestId = evt.item.dataset.guestId;
         const fromTableId = evt.from.dataset.tableId;
@@ -48,7 +51,11 @@
           fromTableId,
           toTableId
         })
-      }
+      },
+      editTableEvent(table) {
+        this.selectTable(table);
+        this.tableEditModalVisible(true);
+      },
     },
     computed: {
       ...mapState(['counter']),
