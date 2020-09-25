@@ -6,7 +6,14 @@ const FacebookStrategy = require('passport-facebook');
 // const TwitterStrategy = require('passport-twitter');
 const UserService = require('./services/user-service')
 
-const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = process.env;
+const {
+    FACEBOOK_APP_ID,
+    FACEBOOK_APP_SECRET,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    TWITTER_CONSUMER_KEY,
+    TWITTER_CONSUMER_SECRET
+} = process.env;
 
 // Passport takes that user id and stores it internally on 
 // req.session.passport which is passport’s internal 
@@ -65,32 +72,35 @@ passport.use(
     new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/redirect",  // burayı oluşturacağız
+        callbackURL: "/auth/google/redirect", // burayı oluşturacağız
     }, (accessToken, refreshToken, profile, done) => {
-            UserService.findOne({ email: profile.email }).then(currentUser => {
-                if (currentUser) {
-                    // already have this user
-                    UserService.updateOne(
-                        { email: profile.email },
-                        { googleId: profile.id }
-                    )
+        UserService.findOne({
+            email: profile.email
+        }).then(currentUser => {
+            if (currentUser) {
+                // already have this user
+                UserService.updateOne({
+                        email: profile.email
+                    }, {
+                        googleId: profile.id
+                    })
                     .then(user => {
-                        done(null, user);
+                        done(null, currentUser);
                     })
 
-                } else {
-                    // if not, create user in our db
-                    UserService.add({
+            } else {
+                // if not, create user in our db
+                UserService.add({
                         googleId: profile.id,
                         name: profile.displayName,
                         email: profile.email,
                         image: profile.picture
                     })
-                        .then(newUser => {
-                            done(null, newUser);
-                        });
-                }
-            });
+                    .then(newUser => {
+                        done(null, newUser);
+                    });
+            }
+        });
         // console.log(JSON.stringify(profile));
         // return done(null, accessToken);
     })
@@ -101,36 +111,45 @@ passport.use(
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
         callbackURL: "/auth/facebook/redirect",
-        profileFields: ['email', 'name', 'picture']  // burayı oluşturacağız
+        profileFields: ['email', 'name', 'picture'] // burayı oluşturacağız
     }, (accessToken, refreshToken, profile, done) => {
-            // console.log(profile);
-            const { email, first_name, last_name } = profile._json;
-            const { url } = profile._json.picture.data;
+        const {
+            email,
+            first_name,
+            last_name
+        } = profile._json;
+        const {
+            url
+        } = profile._json.picture.data;
 
-            UserService.findOne({ email: email }).then(currentUser => {
-                if (currentUser) {
-                    // already have this user
-                    UserService.updateOne(
-                        { email: email },
-                        { facebookId: profile.id }
-                    )
+        // console.log(profile);
+        UserService.findOne({
+            email: email
+        }).then(currentUser => {
+            if (currentUser) {
+                // already have this user
+                UserService.updateOne({
+                        email: email
+                    }, {
+                        facebookId: profile.id
+                    })
                     .then(user => {
-                        done(null, user);
+                        done(null, currentUser);
                     })
 
-                } else {
-                    // if not, create user in our db
-                    UserService.add({
+            } else {
+                // if not, create user in our db
+                UserService.add({
                         facebookId: profile.id,
                         name: first_name + ' ' + last_name,
                         email: email,
                         image: url
                     })
-                        .then(newUser => {
-                            done(null, newUser);
-                        });
-                }
-            });
+                    .then(newUser => {
+                        done(null, newUser);
+                    });
+            }
+        });
         // console.log(JSON.stringify(profile));
         // return done(null, accessToken);
     })
