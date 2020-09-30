@@ -48,7 +48,6 @@
               >
                 {{ user.name }}
               </div>
-              <div class="text-xs italic text-gray-400">{{ user._id }}</div>
               <div class="login-subtitle text-md text-gray-700">
                 Please select your board
               </div>
@@ -68,7 +67,9 @@
                         <h2 class="text-gray-900 title-font font-medium">
                           {{ board.name }}
                         </h2>
-                        <p class="text-gray-500 text-sm">created_date</p>
+                        <p class="text-gray-500 text-sm italic">
+                          {{ returnHumanDate(board.createdAt) }}
+                        </p>
                       </div>
                     </div>
                   </router-link>
@@ -131,6 +132,10 @@ export default {
 
     logoutEvent() {
       this.logoutUser();
+    },
+
+    returnHumanDate(datetime) {
+      return this.$relativeDate(datetime);
     },
   },
   computed: {
