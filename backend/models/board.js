@@ -4,7 +4,7 @@ const BoardSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: 2
+        minlength: 2,
     },
     tables: [{
         type: mongoose.SchemaTypes.ObjectId,
@@ -20,6 +20,10 @@ const BoardSchema = new mongoose.Schema({
             maxDepth: 1
         }
     }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 BoardSchema.plugin(require('mongoose-autopopulate'))
 
